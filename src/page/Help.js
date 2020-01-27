@@ -31,8 +31,8 @@ export default function Help() {
       <Grid container spacing={0}>               
         <FormControl component="fieldset" className={classes.formControl}>
         <RadioGroup value={value} onChange={handleChange}>
-          <FormControlLabel value="yes" control={<Radio icon={<Favorite />} checkedIcon={<FavoriteBorder />} />} label="是" />
-          <FormControlLabel value="no" control={<Radio icon={<Favorite />} checkedIcon={<FavoriteBorder />} />} label="否" />
+          <FormControlLabel value="yes" control={<Radio icon={<FavoriteBorder />} checkedIcon={<Favorite />} />} label="是" />
+          <FormControlLabel value="no" control={<Radio icon={<FavoriteBorder />} checkedIcon={<Favorite />} />} label="否" />
         </RadioGroup>
       </FormControl>
     </Grid>      

@@ -6,33 +6,35 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import FormGroup from '@material-ui/core/FormGroup';
+import { UserConsumer } from '../context/GlobalContext';
 
-export default function Location() {  
-  const locationOptions = [
-      {key: '0', value : '大安區'},
-      {key: '1', value : '松山區'},
-      {key: '2', value : '信義區'},
-      {key: '3', value : '中山區'},
-      {key: '4', value : '中正區'},
-  ];
+const areaOptions = ['中正區', '大同區', '中山區', '松山區', '大安區',
+  '萬華區', '信義區', '士林區', '北投區', '內湖區', '南港區', '文山區'];
 
+export default function Location() {
   return (
-    <React.Fragment>
-      <Typography variant="h4" gutterBottom>
-      找房的區域或捷運站
-      </Typography>
-      <Grid container spacing={0}>       
-        <FormGroup row>
-            {locationOptions.map((ints) => {
-                return <FormControlLabel key={ints.key}
-                control={<Checkbox icon={<FavoriteBorder />}
-                checkedIcon={<Favorite />} 
-                color="secondary" value="yes" />}
-                label={ints.value}                
+    <UserConsumer>
+      {({ updateArea, checkArea }) => (
+        <React.Fragment>
+          <Typography variant="h4" gutterBottom>
+            找房的區域或捷運站</Typography>
+          <Grid container spacing={0}>
+            <FormGroup row>
+              {areaOptions.map((area) => {
+                return <FormControlLabel key={area}
+                  control={<Checkbox
+                    checked={checkArea(area)}
+                    onClick={event => updateArea(event)}
+                    icon={<FavoriteBorder />}
+                    checkedIcon={<Favorite />}
+                    color="secondary" value={area} />}
+                  label={area}
                 />;
-            })}
-        </FormGroup>
-      </Grid>      
-    </React.Fragment>
-  );
-}
+              })}
+            </FormGroup>
+          </Grid>
+        </React.Fragment>
+      )}
+    </UserConsumer>
+  )
+};

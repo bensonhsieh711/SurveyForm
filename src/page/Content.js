@@ -6,34 +6,34 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = makeStyles(theme => ({
-    formControl: {
-      margin: theme.spacing(3),
-    },
-    input: {
+  formControl: {
+    margin: theme.spacing(3),
+  },
+  input: {
     color: "white",
     maxLength: 50
-    }
-  }));
+  }
+}));
 
 export default function Content() {
-    const classes = useStyles();
-    const [value, setValue] = React.useState('');
+  const classes = useStyles();
+  const [value, setValue] = React.useState('');
 
-    const handleChange = event => {
-      setValue(event.target.value);
-    };
+  const handleChange = event => {
+    setValue(event.target.value);
+  };
 
-    // handleInputChange = (e) => {
-    //     this.setState({ [e.target.name]: e.target.value });
-    // }
-    
+  // handleInputChange = (e) => {
+  //     this.setState({ [e.target.name]: e.target.value });
+  // }
+
   return (
     <React.Fragment>
       <Typography variant="h4" gutterBottom>
-      個人資料與聯絡方式
+        個人資料與聯絡方式
       </Typography>
-      <Grid container spacing={0}>               
-      {/* <FormControl className={classes.formControl}>
+      <Grid container spacing={0}>
+        {/* <FormControl className={classes.formControl}>
         <TextField name="userid" 
             label="(最多50個字元)"
             autoFocus={true}
@@ -44,7 +44,7 @@ export default function Content() {
             InputProps={{ className: classes.input }}
         />
     </FormControl> */}
-    </Grid>      
+      </Grid>
     </React.Fragment>
   );
 }
