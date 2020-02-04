@@ -8,34 +8,45 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
+import { UserConsumer } from '../context/GlobalContext';
 
 const useStyles = makeStyles(theme => ({
-    formControl: {
-      margin: theme.spacing(3),
-    },
-  }));
+  formControl: {
+    margin: theme.spacing(3),
+  },
+}));
 
 export default function Help() {
-    const classes = useStyles();
-    const [value, setValue] = React.useState('yes');
+  const classes = useStyles();
 
-    const handleChange = event => {
-      setValue(event.target.value);
-    };
-    
   return (
-    <React.Fragment>
-      <Typography variant="h4" gutterBottom>
-      是否需要幫忙找房?
-      </Typography>
-      <Grid container spacing={0}>               
-        <FormControl component="fieldset" className={classes.formControl}>
-        <RadioGroup value={value} onChange={handleChange}>
-          <FormControlLabel value="yes" control={<Radio icon={<FavoriteBorder />} checkedIcon={<Favorite />} />} label="是" />
-          <FormControlLabel value="no" control={<Radio icon={<FavoriteBorder />} checkedIcon={<Favorite />} />} label="否" />
-        </RadioGroup>
-      </FormControl>
-    </Grid>      
-    </React.Fragment>
+    <UserConsumer>
+      {({ updateOptions, isNeedHelp }) =>
+        <React.Fragment>
+          <Typography variant="h4" gutterBottom>
+            是否需要幫忙找房?</Typography>
+          <Grid container spacing={0}>
+            <FormControl component="fieldset" className={classes.formControl}>
+              <RadioGroup value={isNeedHelp} onChange={event => updateOptions(event, null, 'help')}>
+                <FormControlLabel label="是"
+                  control={
+                    <Radio icon={<FavoriteBorder />}
+                      checkedIcon={<Favorite />}
+                      value={'yes'}
+                    />}
+                />
+                <FormControlLabel label="否"
+                  control={
+                    <Radio icon={<FavoriteBorder />}
+                      checkedIcon={<Favorite />}
+                      value={'no'}
+                    />}
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+        </React.Fragment>
+      }
+    </UserConsumer>
   );
 }

@@ -8,33 +8,31 @@ import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import FormGroup from '@material-ui/core/FormGroup';
 import { UserConsumer } from '../context/GlobalContext';
 
-const areaOptions = ['中正區', '大同區', '中山區', '松山區', '大安區',
-  '萬華區', '信義區', '士林區', '北投區', '內湖區', '南港區', '文山區'];
-
 export default function Location() {
   return (
     <UserConsumer>
-      {({ updateArea, checkArea }) => (
+      {({ updateOptions, loactionOptions }) =>
         <React.Fragment>
           <Typography variant="h4" gutterBottom>
             找房的區域或捷運站</Typography>
           <Grid container spacing={0}>
             <FormGroup row>
-              {areaOptions.map((area) => {
-                return <FormControlLabel key={area}
-                  control={<Checkbox
-                    checked={checkArea(area)}
-                    onClick={event => updateArea(event)}
-                    icon={<FavoriteBorder />}
-                    checkedIcon={<Favorite />}
-                    color="secondary" value={area} />}
-                  label={area}
+              {loactionOptions.map((location) => {
+                return <FormControlLabel
+                  key={location.key} label={location.key}
+                  control={
+                    <Checkbox
+                      checked={location.value}
+                      onClick={event => updateOptions(event, location, 'location')}
+                      icon={<FavoriteBorder />}
+                      checkedIcon={<Favorite />}
+                      color="secondary" value={location.value} />}
                 />;
               })}
             </FormGroup>
           </Grid>
         </React.Fragment>
-      )}
+      }
     </UserConsumer>
-  )
+  );
 };

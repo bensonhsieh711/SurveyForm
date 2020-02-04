@@ -5,11 +5,9 @@ import { UserConsumer } from '../context/GlobalContext';
 export default function SubmitButton(event) {
     return <UserConsumer>
         {({ submitForm }) => (
-            <div>
-                <Button variant="contained"
-                    onClick={event => submitForm(event)}
-                >提交問卷</Button>
-            </div>
+            <Button variant="contained"
+                onClick={event => submitForm(event)}
+            >提交問卷</Button>
         )}
     </UserConsumer>;
 }

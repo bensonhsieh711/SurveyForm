@@ -6,36 +6,32 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import FormGroup from '@material-ui/core/FormGroup';
+import { UserConsumer } from '../context/GlobalContext';
 
-export default function Style() {  
-  const styleOptions = [
-      {key: '0', value : '現代簡約'},
-      {key: '1', value : '輕工業風'},
-      {key: '2', value : '北歐風格'},
-      {key: '3', value : '溫馨鄉村'},
-      {key: '4', value : '傳統中式'},
-      {key: '5', value : '木紋日式'},
-      {key: '6', value : '一般公寓'},
-      {key: '7', value : '分擔房租'},
-  ];
-
+export default function Style() {
   return (
-    <React.Fragment>
-      <Typography variant="h4" gutterBottom>
-      找房類型
-      </Typography>
-      <Grid container spacing={0}>       
-        <FormGroup row>
-            {styleOptions.map((ints) => {
-                return <FormControlLabel key={ints.key}
-                control={<Checkbox icon={<FavoriteBorder />}
-                checkedIcon={<Favorite />} 
-                color="secondary" value="yes" />}
-                label={ints.value}                
+    <UserConsumer>
+      {({ updateOptions, styleOptions }) =>
+        <React.Fragment>
+          <Typography variant="h4" gutterBottom>
+            找房風格</Typography>
+          <Grid container spacing={0}>
+            <FormGroup row>
+              {styleOptions.map((style) => {
+                return <FormControlLabel
+                  key={style.key} label={style.key}
+                  control={
+                    <Checkbox checked={style.value}
+                      onClick={event => updateOptions(event, style, 'style')}
+                      icon={<FavoriteBorder />}
+                      checkedIcon={<Favorite />}
+                      color="secondary" value={style.value} />}
                 />;
-            })}
-        </FormGroup>
-      </Grid>      
-    </React.Fragment>
+              })}
+            </FormGroup>
+          </Grid>
+        </React.Fragment>
+      }
+    </UserConsumer>
   );
 }
