@@ -1,17 +1,25 @@
 import React, { createContext } from 'react';
 
 export const UserContext = createContext({
+    pageIndex: 0,
+    direction: 'left',
     interestOptions: [],
     purposeOptions: [],
     styleOptions: [],
     loactionOptions: [],
-    isNeedHelp: 'yes',
+    isNeedHelp: 'no',
+    isShowTextField: false,
     hopeThings: '',
+    email: '',
+    //updatePageIndex: () => { },
     submitForm: () => { },
     updateOptions: () => { },
 });
 
 export class UserProvider extends React.Component {
+    // updatePageIndex = (index) => {
+    //     this.setState({ pageIndex: index });
+    // };
     updateOptions = (event, option, type) => {
         event.preventDefault();
         //console.log(event, option, type);
@@ -55,10 +63,16 @@ export class UserProvider extends React.Component {
                 break;
             case 'help':
                 //console.log(event.target.value, type);
-                this.setState({ isNeedHelp: event.target.value });
+                this.setState({
+                    isNeedHelp: event.target.value,
+                    isShowTextField: event.target.value === 'yes' ? true : false
+                });
                 break;
             case 'hope':
                 this.setState({ hopeThings: event.target.value });
+                break;
+            case 'email':
+                this.setState({ email: event.target.value });
                 break;
             default:
                 break;
@@ -67,16 +81,19 @@ export class UserProvider extends React.Component {
 
     submitForm = event => {
         event.preventDefault();
-        // console.log('submitForm', this.state.interestOptions,
-        //     this.state.loactionOptions,
-        //     this.state.styleOptions,
-        //     this.state.purposeOptions,
-        //     this.state.isNeedHelp,
-        //     this.state.hopeThings
-        // );
+        this.setState({ pageIndex: 0 });
+        console.log('submitForm', this.state.interestOptions,
+            this.state.loactionOptions,
+            this.state.styleOptions,
+            this.state.purposeOptions,
+            this.state.isNeedHelp,
+            this.state.hopeThings,
+            this.state.email
+        );
     };
 
     state = {
+        pageIndex: 0,
         interestOptions: [
             { key: '唱歌', value: false },
             { key: '健身', value: false },
@@ -114,8 +131,10 @@ export class UserProvider extends React.Component {
             { key: '一般公寓', value: false },
             { key: '分擔房租', value: false },
         ],
-        isNeedHelp: 'yes',
-        hopeThings: '',
+        isNeedHelp: 'no',
+        isShowTextField: false,
+        direction: 'left',
+        //updatePageIndex: this.updatePageIndex,
         submitForm: this.submitForm,
         checkOption: this.checkOption,
         updateOptions: this.updateOptions,

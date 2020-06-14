@@ -7,30 +7,35 @@ import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import FormGroup from '@material-ui/core/FormGroup';
 import { UserConsumer } from '../context/GlobalContext';
+import Slide from '@material-ui/core/Slide';
 
 export default function Purpose() {
   return (
     <UserConsumer>
       {({ updateOptions, purposeOptions }) =>
-        <React.Fragment>
-          <Typography variant="h4" gutterBottom>
-            找房目的</Typography>
-          <Grid container spacing={0}>
-            <FormGroup row>
-              {purposeOptions.map((purpose) => {
-                return <FormControlLabel
-                  key={purpose.key} label={purpose.key}
-                  control={
-                    <Checkbox checked={purpose.value}
-                      onClick={event => updateOptions(event, purpose, 'purpose')}
-                      icon={<FavoriteBorder />}
-                      checkedIcon={<Favorite />}
-                      color="secondary" value={purpose.value} />}
-                />;
-              })}
-            </FormGroup>
-          </Grid>
-        </React.Fragment>
+        <Slide direction="left" in={true} mountOnEnter unmountOnExit>
+          <div>
+            <React.Fragment>
+              <Typography variant="h4" gutterBottom>
+                找房目的</Typography>
+              <Grid container spacing={0}>
+                <FormGroup row>
+                  {purposeOptions.map((purpose) => {
+                    return <FormControlLabel
+                      key={purpose.key} label={purpose.key}
+                      control={
+                        <Checkbox checked={purpose.value}
+                          onClick={event => updateOptions(event, purpose, 'purpose')}
+                          icon={<FavoriteBorder />}
+                          checkedIcon={<Favorite />}
+                          color="secondary" value={purpose.value} />}
+                    />;
+                  })}
+                </FormGroup>
+              </Grid>
+            </React.Fragment>
+          </div>
+        </Slide>
       }
     </UserConsumer>
   );

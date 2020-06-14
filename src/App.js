@@ -1,6 +1,5 @@
 import React from 'react';
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import createTypography from 'material-ui/styles/typography';
 import './App.css';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -10,12 +9,13 @@ import PurposePage from './page/Purpose';
 import StylePage from './page/Style';
 import LocationPage from './page/Location';
 import HelpPage from './page/Help';
-import HopePage from './page/Hope';
 import ContentPage from './page/Content';
 import SubmitButton from './tool/SubmitButton';
 import { UserProvider } from './context/GlobalContext';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepButton from '@material-ui/core/StepButton';
 
-//fontFamily: "'Noto Sans TC', sans-serif",
 const theme = createMuiTheme({
   typography: {
     fontFamily: "'Noto Sans TC', sans-serif"
@@ -26,37 +26,46 @@ const styles = theme => ({
   button: {
     margin: theme.spacing(1),
   },
+  root: {
+    width: '100%',
+  },
 });
 
+const steps = ['興趣', '目的', '類型', '區域', '需求', '個人資料'];
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showInterest: true,
-      currentPage: 0,
-      areaList: [],
+      pageIndex: 0,
+      direction: 'left',
     };
-  };
-  onHandleSubmit = () => {
-    this.setState({ currentPage: 0 });
   };
 
   onHandleNextPage = () => {
     let order = 0;
-    if (this.state.currentPage <= 6) {
-      order = this.state.currentPage + 1;
+    if (this.state.pageIndex <= 6) {
+      order = this.state.pageIndex + 1;
     }
-    this.setState({ currentPage: order });
-    //console.log(this.state.currentPage);
-  }
+    this.setState({ pageIndex: order });
+    //console.log(this.state.pageIndex);
+  };
 
   onHandlePreviousPage = () => {
     let order = 0;
-    if (this.state.currentPage > 0) {
-      order = this.state.currentPage - 1;
+    if (this.state.pageIndex > 0) {
+      order = this.state.pageIndex - 1;
     }
-    this.setState({ currentPage: order });
-  }
+    this.setState({ pageIndex: order });
+  };
+
+  onHandleStep = (event, index) => {
+    event.preventDefault();
+    this.setState({ pageIndex: index });
+  };
+
+  checkCompleted = (index) => {
+    return index === this.state.pageIndex;
+  };
 
   render() {
     const { classes } = this.props;
@@ -65,24 +74,35 @@ class App extends React.Component {
         <header className="App-header">
           <MuiThemeProvider theme={theme}>
             <UserProvider>
-              <div>
-                {this.state.currentPage === 0 ? <InterestPage /> : null}
-                {this.state.currentPage === 1 ? <PurposePage /> : null}
-                {this.state.currentPage === 2 ? <StylePage /> : null}
-                {this.state.currentPage === 3 ? <LocationPage /> : null}
-                {this.state.currentPage === 4 ? <HelpPage /> : null}
-                {this.state.currentPage === 5 ? <HopePage /> : null}
-                {this.state.currentPage === 6 ? <ContentPage /> : null}
+              <div className={classes.root}>
+                <Stepper nonLinear activeStep={this.state.pageIndex}>
+                  {steps.map((label, index) => (
+                    <Step key={label}>
+                      <StepButton onClick={event => this.onHandleStep(event, index)} completed={this.checkCompleted(index)}>
+                        {label}
+                      </StepButton>
+                    </Step>
+                  ))}
+                </Stepper>
               </div>
               <div>
-                {this.state.currentPage > 0 ?
+                {this.state.pageIndex === 0 ? <InterestPage /> : null}
+                {this.state.pageIndex === 1 ? <PurposePage /> : null}
+                {this.state.pageIndex === 2 ? <StylePage /> : null}
+                {this.state.pageIndex === 3 ? <LocationPage /> : null}
+                {this.state.pageIndex === 4 ? <HelpPage /> : null}
+                {/* {this.state.pageIndex === 5 ? <HopePage /> : null} */}
+                {this.state.pageIndex === 5 ? <ContentPage /> : null}
+              </div>
+              <div>
+                {this.state.pageIndex > 0 ?
                   <Button variant="contained" className={classes.button} onClick={this.onHandlePreviousPage}>
                     上一頁</Button> : null}
-                {this.state.currentPage <= 5 ?
+                {this.state.pageIndex < steps.length - 1 ?
                   <Button variant="contained" className={classes.button} onClick={this.onHandleNextPage}>
                     下一頁</Button> : null}
-                {this.state.currentPage === 6 ?
-                  <SubmitButton className={classes.button} value={(event) => { }} /> : null}
+                {this.state.pageIndex === steps.length - 1 ?
+                  <SubmitButton className={classes.button} value={() => { }} /> : null}
               </div>
             </UserProvider>
           </MuiThemeProvider>
